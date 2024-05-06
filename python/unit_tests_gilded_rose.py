@@ -1,12 +1,12 @@
 import unittest
-from gilded_rose import GildedRose, Item
+from refactoring_class import GildedRose, Item
 
 
 class GildedRoseTest(unittest.TestCase):
 
-    def test_normal_item(self):
+    def test_standard_item(self):
         # Set up the item
-        item = Item("Classic Item", 10, 20)
+        item = Item("Standard Item", 10, 20)
         gilded_rose = GildedRose([item])
 
         # One day after
@@ -16,7 +16,7 @@ class GildedRoseTest(unittest.TestCase):
 
         # Sell by date passed
         # Set up the item
-        item = Item("Classic Item", -1, 10)
+        item = Item("Standard Item", -1, 10)
         gilded_rose = GildedRose([item])
         gilded_rose.update_quality()
         self.assertEqual(item.sell_in, -2)
@@ -121,6 +121,25 @@ class GildedRoseTest(unittest.TestCase):
 
         self.assertEqual(item.sell_in, -2)
         self.assertEqual(item.quality, 0)
+
+    def test_conjured(self):
+        # Set up the item
+        item = Item("Conjured Mana Cake", 20, 40)
+        gilded_rose = GildedRose([item])
+
+        # One day after
+        gilded_rose.update_quality()
+        self.assertEqual(item.sell_in, 19)
+        self.assertEqual(item.quality, 38)
+
+        # Sell by date passed
+        # Set up the item
+        item = Item("Conjured Mana Cake", -1, 10)
+        gilded_rose = GildedRose([item])
+
+        gilded_rose.update_quality()
+        self.assertEqual(item.sell_in, -2)
+        self.assertEqual(item.quality, 6)
 
 
 if __name__ == "__main__":
